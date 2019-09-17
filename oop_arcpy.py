@@ -12,6 +12,7 @@ class gis():
     corrected_image = "/correctedImage"
     clipped_image = "/clippedImage"
     shapeFile = "/shapeFile"
+    ndvi_image = "/ndvi"
     count = 0
 
     def rad_correction(self):
@@ -61,10 +62,27 @@ class gis():
         str_composite = b2+semicolon+b3+semicolon+b4+semicolon+b5+semicolon+b6+semicolon+b7
         arcpy.CompositeBands_management(str_composite, output_name)
         print("Selesai membuat citra komposit")
+
+    def ndvi(self):
+        ENV.workspace = self.outDIR+self.clipped_image
+        band_ndvi_list = ["*B4*", "*B5*"]
+        ndvi_list = []
+        for ndvi_calc in band_ndvi_list:
+            raster_src = arcpy.ListRasters(ndvi_calc, "TIF")
+            ndvi_list.extend(raster_src)
+        ndvi_output = "D:/arcpy/results/ndvi/NDVI_kulonprogo.TIF"
+        red = arcpy.sa.Raster(ndvi_list[0])
+        nir = arcpy.sa.Raster(ndvi_list[1])
+        ndvi_calculate = Float(nir-red)/Float(nir+red)
+        ndvi_calculate.save(ndvi_output)
+        print("Selesai memroses NDVI")
+            
+
 #run the function
 # run_correction = gis().rad_correction()
 # run_clip = gis().clip_image()
 #composite_clip = gis().comp_image()
+#ndvi_run = gis().ndvi()
 
 
     
