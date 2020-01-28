@@ -131,4 +131,4 @@ class preprocessing():
 # ndvi = preprocessing().ndvi()
 # ems = preprocessing().ems()
 # tb = preprocessing().tbrightness()
-ts = preprocessing().ts()
+#ts = preprocessing().ts()
